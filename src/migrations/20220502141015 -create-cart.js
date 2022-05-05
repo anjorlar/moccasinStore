@@ -9,7 +9,16 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       quantity: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      price: {
+        type: Sequelize.DECIMAL(10,2),
+        allowNull: false,
+      },
+      cartStatus: {
+        type: Sequelize.ENUM('checkedout', 'notcheckedout'),
+        allowNull: false,
       },
       userId: {
         type: Sequelize.INTEGER,

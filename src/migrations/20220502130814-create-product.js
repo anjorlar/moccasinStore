@@ -33,7 +33,8 @@ module.exports = {
         allowNull: false,
       },
       price: {
-        type: Sequelize.DECIMAL(10,2)
+        type: Sequelize.DECIMAL(10,2),
+        allowNull: false,
       },
       categoryId:{
         type: Sequelize.INTEGER,
@@ -55,14 +56,6 @@ module.exports = {
       imageThumbnail: {
         type: Sequelize.TEXT
       },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      }
     });
   },
   async down(queryInterface, Sequelize) {

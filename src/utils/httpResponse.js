@@ -1,11 +1,11 @@
 /**
- * http_responder object.
+ * httpResponder object.
  * to manage reponse for all incoming request
  *
  */
  const { StatusCodes } = require("http-status-codes");
 
- const http_responder = {
+ const httpResponse = {
      async errorResponse(
          res,
          message,
@@ -23,7 +23,7 @@
          data,
          message,
          statusCode = StatusCodes.OK,
-         meta = null
+         meta = {}
      ) {
          return res.status(statusCode).send({
              error: false,
@@ -35,5 +35,5 @@
      },
  };
  
- module.exports = http_responder;
+ module.exports = httpResponse;
  

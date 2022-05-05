@@ -20,10 +20,6 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Order.init({
-    orderStatus: {
-      type: DataTypes.ENUM('fulfilled', 'unfulfilled'),
-      allowNull: false,
-    },
     transactionId: {
       type: DataTypes.STRING,
       allowNull: false,
