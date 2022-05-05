@@ -95,9 +95,6 @@ exports.search = async (req, res) => {
             for (const element of rows) {
                 console.log('>>>>', element)
                 	result.push(element);
-                // for (const ec of element.characterEpisodes) {
-                // 	result.push(ec.episode);
-                // }
             }
         }
         return httpResponder.successResponse(
