@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     cartStatus: {
-      type: DataTypes.ENUM('checkedout', 'notcheckedout'),  // on checkout subtract the ordered quantity from the product quantity
+      type: DataTypes.ENUM('checkedout', 'notcheckedout', 'abandoned'),  // on checkout subtract the ordered quantity from the product quantity
       allowNull: false,
     },
     price:{
@@ -33,6 +33,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    productId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },

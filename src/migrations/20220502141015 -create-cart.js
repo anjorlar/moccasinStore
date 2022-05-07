@@ -13,11 +13,11 @@ module.exports = {
         allowNull: false,
       },
       price: {
-        type: Sequelize.DECIMAL(10,2),
+        type: Sequelize.DECIMAL(10, 2),
         allowNull: false,
       },
       cartStatus: {
-        type: Sequelize.ENUM('checkedout', 'notcheckedout'),
+        type: Sequelize.ENUM('checkedout', 'notcheckedout', 'abandoned'),
         allowNull: false,
       },
       userId: {
@@ -26,6 +26,10 @@ module.exports = {
           model: "users",
           key: "id",
         }
+      },
+      productId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,

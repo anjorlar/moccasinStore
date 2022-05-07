@@ -3,7 +3,7 @@ const { Op } = require("sequelize");
 
 const ProductServices = {
 
-    async getAllProducts(filter, sort) {
+     getAllProducts(filter, sort) {
         return models.products.findAndCountAll({
             include: [{
                 model: models.categories,
@@ -17,7 +17,7 @@ const ProductServices = {
         });
     },
 
-    async getAllProductsByCategory(filter, sort, category) {
+     getAllProductsByCategory(filter, sort, category) {
         return models.products.findAndCountAll({
             include: [{
                 model: models.categories,
@@ -34,8 +34,9 @@ const ProductServices = {
         });
     },
 
-    async findProductById(id) {
+     findProductById(id) {
         return models.products.findByPk(id, {
+            productStatus: true,
             include: [{
                 model: models.categories,
                 // required: false,
@@ -54,6 +55,7 @@ const ProductServices = {
 					{ productDetails: { [Op.like]: "%" + q + "%" } },
 				],
 			},
+            productStatus: true,
 			include: [
 				{
 					model: models.categories,
@@ -68,6 +70,12 @@ const ProductServices = {
 		});
 	},
     
+    validateProductDetails(id) {
+        return models.products.findByPk(id, {
+            productStatus: true,
+            attributes: ['id', 'quantity', 'price'] 
+        })
+    }
 }
 
 module.exports = ProductServices;

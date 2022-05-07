@@ -9,7 +9,7 @@ const CartServices = {
  },
 
 async getCart (userId) {
-    return models.carts.findOne({
+    return models.carts.findAll({
         where: {
             userId,
             cartStatus: 'notcheckedout'

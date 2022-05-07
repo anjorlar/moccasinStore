@@ -14,12 +14,12 @@ module.exports = (sequelize, DataTypes) => {
       Product.belongsTo(models.categories) // many products to one category
       Product.belongsToMany(models.carts,{
         through: 'cartProducts',
-        foreignKey: 'ProductId'
+        foreignKey: 'productId'
     }); // many carts to many products
       Product.belongsToMany(models.orders,{
         through: 'orderProducts',
         // as: 'products',
-        foreignKey: 'ProductId'
+        foreignKey: 'productId'
       }); // many orders to many products
     }
   }
