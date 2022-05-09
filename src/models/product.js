@@ -53,7 +53,8 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     price:{
-      type: DataTypes.DECIMAL
+      type: DataTypes.DECIMAL,
+      allowNull: false,
     },
     imageOne:{
       type: DataTypes.TEXT
@@ -68,6 +69,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT
     },
   }, {
+    timestamps: false,
     sequelize,
     modelName: 'products',
   });

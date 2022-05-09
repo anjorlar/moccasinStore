@@ -8,10 +8,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      orderStatus: {
-        type: Sequelize.ENUM('fulfilled', 'unfulfilled'),
-        allowNull: false,
-      },
       transactionId: {
         type: Sequelize.STRING,
         allowNull: false,
