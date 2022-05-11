@@ -12,7 +12,7 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      userId:{
+      userId: {
         type: Sequelize.INTEGER,
         references: {
           model: "users",
@@ -20,13 +20,21 @@ module.exports = {
           // as: "users",
         }
       },
-      cartId:{
+      cartId: {
         type: Sequelize.INTEGER,
         references: {
           model: "carts",
           key: "id",
           // as: "carts",
         }
+      },
+      productId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      address: {
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,

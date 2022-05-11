@@ -10,15 +10,15 @@ module.exports = {
       },
       orderId: {
         type: Sequelize.INTEGER,
-        allowNull: false, 
-         references: {
+        allowNull: false,
+        references: {
           model: 'orders',
           key: 'id'
         }
       },
       productId: {
         type: Sequelize.INTEGER,
-        allowNull: false,  
+        allowNull: false,
         references: {
           model: 'products',
           key: 'id'

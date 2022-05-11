@@ -9,7 +9,7 @@ const routes = require("./routes");
 
 // const run = async () => {
 // };
-// // db.sequelize.sync({ force: true });
+// db.sequelize.sync({ force: true });
 // db.sequelize.sync().then(() => {
 //   console.log("Drop and re-sync db.");
 //   run();

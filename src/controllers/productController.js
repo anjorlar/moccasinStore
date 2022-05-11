@@ -40,7 +40,7 @@ exports.viewAllActiveProducts = async (req, res) => {
             { result: dataVal.rows },
             "products returned successfully",
             StatusCodes.OK,
-            meta(dataVal.count, filter.limit, page)
+            meta(dataVal.count, filter.limit, pages)
         );
     } catch (error) {
         logger.error(error);
@@ -102,7 +102,7 @@ exports.search = async (req, res) => {
             { result },
             "result returned successfully",
             StatusCodes.OK,
-            meta(count, filter.limit, page)
+            meta(count, filter.limit, pages)
         );
     } catch (error) {
         console.error(error);
