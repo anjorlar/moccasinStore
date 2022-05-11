@@ -2,7 +2,6 @@ const logger = require("../config/logger");
 const httpResponder = require("../utils/httpResponse");
 const { StatusCodes } = require("http-status-codes");
 const { cartSchema, } = require("../utils/schemaDefination");
-const { validateRequest } = require("../utils/utils")
 const CartServices = require('../services/cartServices');
 const ProductServices = require('../services/productServices');
 const CartProductServices = require('../services/cartProductServices');
@@ -59,9 +58,7 @@ exports.createCart = async (req, res) => {
             return httpResponder.errorResponse(res, 'Products should be an array',
                 StatusCodes.BAD_REQUEST);
         }
-        console.log('>>>> products', products)
         let cartDetails = await CartServices.getCart(id);
-        console.log('>>>> cartDetails', cartDetails)
 
 
         if (cartDetails.length > 0) {
@@ -71,7 +68,6 @@ exports.createCart = async (req, res) => {
         }
 
         for (let each of products) {
-            console.log('>>>> each', each)
 
             if (!each.productId || !each.quantity) {
                 return httpResponder.errorResponse(res, 'Products must be an array which contains an object with the keys productId ,quantity',
@@ -100,11 +96,8 @@ exports.createCart = async (req, res) => {
 
         const createCartRes = await CartServices.createCart(productArr)
         if (createCartRes) {
-            console.log('>>>> createCartProduct', createCartRes)
             const createCartProduct = await Promise.all(createCartRes.map(each => CartProductServices.createCartProduct(each)))
-            console.log('>>>>> createCartProduct createCartProduct 1', createCartProduct)
             const updateProductQty = await Promise.all(createCartRes.map(each => ProductServices.updateProductQty(each, 'subtract')))
-            console.log('>>>>> updateProductQty 1', updateProductQty)
 
         }
         return httpResponder.successResponse(res,
@@ -135,10 +128,8 @@ exports.cartCheckout = async (req, res) => {
         }
 
         for (let each of cartDetails) {
-            console.log('dataValues >> each', each);
 
             const { dataValues } = await ProductServices.validateProductDetails(each.productId)
-            console.log('dataValues >> dataValues', dataValues);
             if (!dataValues.id) {
                 return httpResponder.errorResponse(res, 'Invalid ProductId Passed',
                     StatusCodes.BAD_REQUEST);
@@ -150,8 +141,6 @@ exports.cartCheckout = async (req, res) => {
             };
         }
         const moveCartStatusToCheckedout = await Promise.all(cartDetails.map(each => CartServices.updateCartStatus(each, 'checkedout')))
-        // const moveCartStatusToCheckedout = await Promise.all(cartDetails.map(each => CartServices.updateCartStatus(each, 'checkedout')))
-        console.log('moveCartStatusToCheckedout >> moveCartStatusToCheckedout', moveCartStatusToCheckedout);
         if (moveCartStatusToCheckedout) {
             for (let each of cartDetails) {
                 OrderArr.push({
@@ -163,13 +152,10 @@ exports.cartCheckout = async (req, res) => {
                 })
             }
             const updateProductQty = await Promise.all(cartDetails.map(each => ProductServices.updateProductQty(each, 'subtract')))
-            console.log('>>>>> updateProductQty 1', updateProductQty)
             // create order on checkout
             const createOrder = await OrderServices.createOrder(OrderArr)
-            console.log('>>>>> createOrder createOrder 1', createOrder)
             // create order product
             const createOrderProduct = await Promise.all(createOrder.map(each => OrderProductServices.createOrderProduct(each)))
-            console.log('>>>>> createOrderProduct createOrderProduct 1', createOrderProduct)
 
         }
 
@@ -189,7 +175,6 @@ exports.updateCart = async (req, res) => {
         const { products } = req.body
 
         const { id } = req.user
-        // console.log('>>>> req.user', req.user)
         let productArr = []
         if (!products) {
             return httpResponder.errorResponse(res, 'Please pass the products field',
@@ -200,24 +185,18 @@ exports.updateCart = async (req, res) => {
             return httpResponder.errorResponse(res, 'Products should be an array',
                 StatusCodes.BAD_REQUEST);
         }
-        console.log('>>>> products', products)
         let cartDetails = await CartServices.getCart(id);
-        console.log('>>>> cartDetails', cartDetails)
         if (cartDetails.length < 0) {
             return httpResponder.errorResponse(res,
                 'This user does not have a cart to update, Please use the create cart endpoint',
                 StatusCodes.BAD_REQUEST);
         }
-        // console.log('>>>> cartDetails IS here', cartDetails)
         // set all products in carts to abandoned and increase the quantity in the product table back
         const productQtyUpdateAdd = await Promise.all(cartDetails.map(each => ProductServices.updateProductQty(each, 'add')))
-        console.log('>>>> productQtyUpdateAdd', productQtyUpdateAdd)
 
         const moveCartStatusToAbandoned = await Promise.all(cartDetails.map(each => CartServices.updateCartStatus(each, 'abandoned')))
-        console.log('>>>> movedCartStatusToAbandoned', moveCartStatusToAbandoned)
 
         for (let each of products) {
-            console.log('>>>> each', each)
 
             if (!each.productId || !each.quantity) {
                 return httpResponder.errorResponse(res, 'Products must be an array which contains an object with the keys productId ,quantity',
@@ -235,14 +214,11 @@ exports.updateCart = async (req, res) => {
                     StatusCodes.BAD_REQUEST);
             }
             const cartDetailsProductIndexFound = cartDetails.findIndex(item => {
-                console.log('>>>> item >>>>', item)
                 return item.productId == each.productId
             });
-            console.log('>>>> cartDetailsProductIndexFound', cartDetailsProductIndexFound)
 
             //Check if product exist, just add the previous quantity with the new quantity and update the total price
             if (cartDetailsProductIndexFound !== -1) {
-                console.log('>>>> cartDetails 123456', cartDetails)
 
                 productArr.push({
                     quantity: Number(cartDetails[cartDetailsProductIndexFound].quantity) + Number(each.quantity),
@@ -262,16 +238,12 @@ exports.updateCart = async (req, res) => {
                     pricePerUnit: Number(dataValues.price)
                 })
             }
-            console.log('>>>> productArr productArr >>>', productArr)
 
         }
         const createCartRes = await CartServices.createCart(productArr)
         if (createCartRes) {
-            console.log('>>>> createCartProduct', createCartRes)
             const createCartProduct = await Promise.all(createCartRes.map(each => CartProductServices.createCartProduct(each)))
-            console.log('>>>>> createCartProduct createCartProduct 1', createCartProduct)
             const updateProductQty = await Promise.all(createCartRes.map(each => ProductServices.updateProductQty(each, 'subtract')))
-            console.log('>>>>> updateProductQty 1', updateProductQty)
 
         }
         return httpResponder.successResponse(res,
@@ -293,7 +265,6 @@ exports.deleteCart = async (req, res) => {
         const { id } = req.user
 
         let cartDetails = await CartServices.getCart(id);
-        console.log('>>>> cartDetails', cartDetails)
         if (cartDetails === null || cartDetails.length === 0) {
             return Response.failure(res, 'There are no carts to delete',
                 StatusCodes.BAD_REQUEST);

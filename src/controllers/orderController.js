@@ -20,8 +20,6 @@ exports.viewOrders = async (req, res) => {
         filter.offSet = (pages - 1) * filter.limit;
         let order = await OrderService.getASingleUsersOrder(filter, id)
         let orderCount = await OrderService.countToGetASingleUsersOrder(filter, id)
-        console.log('>>>> order order', order)
-        console.log('>>>> orderCount orderCount', orderCount)
 
         if (!order.length < 0) {
             return httpResponder.errorResponse(res, 'This user does not have an active cart',
@@ -32,8 +30,7 @@ exports.viewOrders = async (req, res) => {
             meta(orderCount, filter.limit, pages)
         );
     } catch (error) {
-        logger.error(error);
-        console.error(error);
+        logger.error('error with view orders', error);
         return httpResponder.errorResponse(res, "Internal Server Error", StatusCodes.INTERNAL_SERVER_ERROR);
 
     }

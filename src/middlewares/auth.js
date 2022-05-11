@@ -11,7 +11,7 @@ const UserService = require("../services/userServices");
  * @param {Function} next nextfunction middleware
  * @returns {void|Object} object
  */
- const authToken = async (req, res, next) => {
+const authToken = async (req, res, next) => {
     try {
         let token =
             req.headers.authorization === undefined ? "" : req.headers.authorization;
@@ -28,9 +28,7 @@ const UserService = require("../services/userServices");
                 "Unauthorised access",
                 StatusCodes.UNAUTHORIZED
             );
-        // const decoded = await jwt.verify(token, config.jwt.SECRETKEY);
         const decoded = await verifyToken(token);
-        console.error('>>>>> decoded',decoded);
 
         if (!decoded)
             return httpResponder.errorResponse(
@@ -38,11 +36,10 @@ const UserService = require("../services/userServices");
                 "Invalid request or token expire",
                 StatusCodes.UNAUTHORIZED
             );
-        // req.decodedUserData = decoded
         req.id = decoded.id
         next();
     } catch (error) {
-        console.error('>>>>> error',error);
+        console.error('error with auth token', error);
 
         if (error.message === "jwt expired")
             return httpResponder.errorResponse(
@@ -68,17 +65,17 @@ const UserService = require("../services/userServices");
   * @returns {void|Object} object
   */
 const authUser = async (req, res, next) => {
-	try {
+    try {
         const user = await UserService.findUserById(req.id);
-		if (!user || user.dataValues.isDeleted) {
-			return httpResponder.errorResponse(res, "User does Not exist", StatusCodes.UNAUTHORIZED);
-		}
-		req.user = user.dataValues;
-		next();
+        if (!user || user.dataValues.isDeleted) {
+            return httpResponder.errorResponse(res, "User does Not exist", StatusCodes.UNAUTHORIZED);
+        }
+        req.user = user.dataValues;
+        next();
     } catch (err) {
-        console.error('LLLLL',err);
-		return httpResponder.errorResponse(res, "Invalid token. Please login", StatusCodes.UNAUTHORIZED);
-	}
+        console.error('error with auth user', err);
+        return httpResponder.errorResponse(res, "Invalid token. Please login", StatusCodes.UNAUTHORIZED);
+    }
 };
 
 module.exports = { authToken, authUser }
