@@ -34,7 +34,6 @@ exports.viewAllActiveProducts = async (req, res) => {
         } else {
             dataVal = await ProductServices.getAllProducts(filter, sort);
         }
-        console.log('>>>>>>>>', dataVal.count, dataVal.rows)
         return httpResponder.successResponse(
             res,
             { result: dataVal.rows },
@@ -43,8 +42,7 @@ exports.viewAllActiveProducts = async (req, res) => {
             meta(dataVal.count, filter.limit, pages)
         );
     } catch (error) {
-        logger.error(error);
-        console.error(error);
+        logger.error('error with view all active products', error);
         return httpResponder.errorResponse(res, "Internal Server Error", StatusCodes.INTERNAL_SERVER_ERROR);
     }
 }
@@ -56,7 +54,6 @@ exports.viewOneProduct = async (req, res) => {
         const { id } = req.params
 
         const { dataValues } = await ProductServices.findProductById(id);
-        console.log('>>>>>>>>', dataValues)
         return httpResponder.successResponse(
             res,
             { result: dataValues },
@@ -64,8 +61,7 @@ exports.viewOneProduct = async (req, res) => {
             StatusCodes.OK,
         );
     } catch (error) {
-        logger.error(error);
-        console.error(error);
+        logger.error('error with view one product', error);
         return httpResponder.errorResponse(res, "Internal Server Error", StatusCodes.INTERNAL_SERVER_ERROR);
     }
 }
@@ -93,8 +89,7 @@ exports.search = async (req, res) => {
         const result = [];
         if (rows.length > 0) {
             for (const element of rows) {
-                console.log('>>>>', element)
-                	result.push(element);
+                result.push(element);
             }
         }
         return httpResponder.successResponse(
@@ -105,8 +100,7 @@ exports.search = async (req, res) => {
             meta(count, filter.limit, pages)
         );
     } catch (error) {
-        console.error(error);
-        logger.error(error);
+        logger.error('error with search', error);
         return httpResponder.errorResponse(
             res,
             "internal_server_error",

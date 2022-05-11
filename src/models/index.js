@@ -2,12 +2,49 @@ const fs = require("fs");
 const path = require("path");
 const Sequelize = require("sequelize");
 const basename = path.basename(__filename);
-const config = require("../config/config");
+const configFile = require("../config/config");
 
-const env = process.env.NODE_ENV || "development";
+// const env = process.env.NODE_ENV || "development";
+// const db = {};
+
+// const sequelize = new Sequelize(config[env]["url"], config[env]);
+console.log('this is the environment: process.env.NODE_ENV', process.env.NODE_ENV);
+
+
+const env = process.env.NODE_ENV ? process.env.NODE_ENV : 'development';
+
+const config = configFile[env];
+
+console.log('this is the environment: ', env);
+console.log('this is the environment: ', config.database);
+
 const db = {};
 
-const sequelize = new Sequelize(config[env]["url"], config[env]);
+let sequelize;
+if (config.environment === 'production') {
+	sequelize = new Sequelize(process.env[config.use_env_variable], config);
+	sequelize = new Sequelize(
+		process.env.DB_NAME,
+		process.env.DB_USERNAME,
+		process.env.DB_PASSWORD, {
+		host: process.env.DB_HOST,
+		port: process.env.DB_PORT,
+		dialect: 'mysql',
+		// dialectOption: {
+		//     ssl: true,
+		//     native: true,
+		// },
+		logging: true,
+	}
+	);
+} else {
+	sequelize = new Sequelize(
+		config.database,
+		config.username,
+		config.password,
+		config
+	);
+}
 
 fs.readdirSync(__dirname)
 	.filter((file) => {

@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const morgan = require('morgan')
 const helmet = require("helmet");
 const logger = require("./config/logger");
 const httpResponder = require("./utils/httpResponse");
@@ -9,7 +10,12 @@ const routes = require("./routes");
 
 // const run = async () => {
 // };
-// db.sequelize.sync({ force: true });
+console.log('>>>>>>>>>>>>>>> process.env.NODE_ENV', process.env.NODE_ENV)
+console.log('>>>>>>>>>>>>>>> process.env.NODE_ENV', process.env.NODE_ENV)
+
+if (process.env.NODE_ENV === 'test') {
+    // db.sequelize.sync({ force: true });
+}
 // db.sequelize.sync().then(() => {
 //   console.log("Drop and re-sync db.");
 //   run();
@@ -28,13 +34,11 @@ app.use(helmet());
 app.use(cors());
 
 // Development logging
-if (process.env.NODE_ENV === 'development') {
-    app.use(morgan('dev'));
-}
-
+// if (process.env.NODE_ENV === 'development') {
+// console.log('>>>>>>>>>>>>>>> process.env.NODE_ENV', process.env)
+app.use(morgan('dev'));
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true }));
-
 
 // Routes
 app.use(routes);

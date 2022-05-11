@@ -7,15 +7,27 @@ module.exports = {
   port: process.env.PORT,
 
   development: {
-    url: process.env.DATABASE_URL,
+    database: process.env.DB_NAME,
+    username: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
     dialect: process.env.DB_DIALECT,
   },
+
   test: {
-    url: process.env.DATABASE_URL,
+    database: process.env.TEST_DB_NAME,
+    username: process.env.TEST_DB_USERNAME,
+    password: process.env.TEST_DB_PASSWORD,
+    host: process.env.TEST_DB_HOST,
     dialect: process.env.DB_DIALECT,
   },
+
   production: {
-    url: process.env.DATABASE_URL,
+    database: process.env.DB_NAME,
+    username: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    host: process.env.DB_HOST,
     dialect: process.env.DB_DIALECT,
   },
 
