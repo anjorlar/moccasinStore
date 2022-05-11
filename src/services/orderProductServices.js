@@ -1,7 +1,12 @@
 const models = require("../models");
-const { Op } = require("sequelize");
 
-const orderProductServices = {
-
+const OrderProductServices = {
+    createOrderProduct(orderDataVal) {
+        console.log('>>>>>> cartDataVal', orderDataVal)
+        return models.orderProducts.create({
+            orderId: orderDataVal.id,
+            productId: orderDataVal.productId
+        })
+    }
 }
-module.exports = orderProductServices
+module.exports = OrderProductServices

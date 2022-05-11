@@ -12,7 +12,11 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
-      price: {
+      pricePerUnit: {
+        type: Sequelize.DECIMAL(10, 2),
+        allowNull: false,
+      },
+      totalPrice: {
         type: Sequelize.DECIMAL(10, 2),
         allowNull: false,
       },

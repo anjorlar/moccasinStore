@@ -28,7 +28,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.ENUM('checkedout', 'notcheckedout', 'abandoned'),  // on checkout subtract the ordered quantity from the product quantity
       allowNull: false,
     },
-    price:{
+    totalPrice:{
+      type: DataTypes.DECIMAL,
+      allowNull: false
+    },
+    pricePerUnit:{
       type: DataTypes.DECIMAL,
       allowNull: false
     },
