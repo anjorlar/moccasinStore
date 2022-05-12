@@ -48,7 +48,6 @@ exports.register = async (req, res) => {
         return httpResponder.successResponse(res, { user: { ...dataValues }, token }, "user created successfully", StatusCodes.CREATED);
     } catch (error) {
         logger.error(error);
-        console.error(error);
         return httpResponder.errorResponse(res, "Internal Server Error", StatusCodes.INTERNAL_SERVER_ERROR);
     }
 }
@@ -107,7 +106,6 @@ exports.login = async (req, res) => {
             StatusCodes.OK
         );
     } catch (error) {
-        console.error(error);
         logger.error(error);
         return httpResponder.errorResponse(
             res,

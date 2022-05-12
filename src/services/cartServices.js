@@ -1,9 +1,9 @@
 const models = require("../models");
 const { Op } = require("sequelize");
+const moment = require('moment')
 
 const CartServices = {
     async createCart(cartData) {
-        // return models.carts.create(cartData)
         return models.carts.bulkCreate(cartData)
     },
 
@@ -34,12 +34,13 @@ const CartServices = {
         }
     },
 
+    
+
     getASingleUsersCart(filter, userId) {
-        console.log('>>>> filter', filter)
         return models.carts.findAll({
             include: [{
                 model: models.products,
-                attributes: ['id','productName','imageThumbnail', 'price', 'size','productDetails'],
+                attributes: ['id', 'productName', 'imageThumbnail', 'price', 'size', 'productDetails'],
                 through: {
                     attributes: []
                 }
@@ -55,7 +56,6 @@ const CartServices = {
     },
 
     countToGetASingleUsersCart(filter, userId) {
-        console.log('>>>> filter', filter)
         return models.carts.count({
             include: [{
                 model: models.products,
@@ -71,7 +71,16 @@ const CartServices = {
         });
     },
 
-
+    getAllCartsNotCheckedOutCartOlderThan24Hrs() {
+        return models.carts.findAll({
+            where: {
+                createdAt: {
+                    [Op.gt]: new Date(new Date() - 24 * 60 * 60 * 1000)
+                },
+                cartStatus: 'notcheckedout',
+            }
+        })
+    }
 }
 
 module.exports = CartServices;

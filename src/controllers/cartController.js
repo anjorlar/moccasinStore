@@ -1,7 +1,6 @@
 const logger = require("../config/logger");
 const httpResponder = require("../utils/httpResponse");
 const { StatusCodes } = require("http-status-codes");
-const { cartSchema, } = require("../utils/schemaDefination");
 const CartServices = require('../services/cartServices');
 const ProductServices = require('../services/productServices');
 const CartProductServices = require('../services/cartProductServices');
@@ -37,7 +36,6 @@ exports.getAUsersCart = async (req, res) => {
         );
     } catch (error) {
         logger.error(error);
-        console.error(error);
         return httpResponder.errorResponse(res, "Internal Server Error", StatusCodes.INTERNAL_SERVER_ERROR);
 
     }
@@ -96,8 +94,8 @@ exports.createCart = async (req, res) => {
 
         const createCartRes = await CartServices.createCart(productArr)
         if (createCartRes) {
-            const createCartProduct = await Promise.all(createCartRes.map(each => CartProductServices.createCartProduct(each)))
-            const updateProductQty = await Promise.all(createCartRes.map(each => ProductServices.updateProductQty(each, 'subtract')))
+            await Promise.all(createCartRes.map(each => CartProductServices.createCartProduct(each)))
+            await Promise.all(createCartRes.map(each => ProductServices.updateProductQty(each, 'subtract')))
 
         }
         return httpResponder.successResponse(res,
@@ -106,7 +104,6 @@ exports.createCart = async (req, res) => {
 
     } catch (error) {
         logger.error(error);
-        console.error(error);
         return httpResponder.errorResponse(res, "Internal Server Error", StatusCodes.INTERNAL_SERVER_ERROR);
     }
 }
@@ -151,11 +148,11 @@ exports.cartCheckout = async (req, res) => {
                     address
                 })
             }
-            const updateProductQty = await Promise.all(cartDetails.map(each => ProductServices.updateProductQty(each, 'subtract')))
+            await Promise.all(cartDetails.map(each => ProductServices.updateProductQty(each, 'subtract')))
             // create order on checkout
             const createOrder = await OrderServices.createOrder(OrderArr)
             // create order product
-            const createOrderProduct = await Promise.all(createOrder.map(each => OrderProductServices.createOrderProduct(each)))
+            await Promise.all(createOrder.map(each => OrderProductServices.createOrderProduct(each)))
 
         }
 
@@ -164,7 +161,6 @@ exports.cartCheckout = async (req, res) => {
             "cart checkedout successfully", StatusCodes.OK)
     } catch (error) {
         logger.error('Error with cart checkout', error);
-        console.error('Error with cart checkout', error);
         return httpResponder.errorResponse(res, "Internal Server Error", StatusCodes.INTERNAL_SERVER_ERROR);
 
     }
@@ -192,9 +188,9 @@ exports.updateCart = async (req, res) => {
                 StatusCodes.BAD_REQUEST);
         }
         // set all products in carts to abandoned and increase the quantity in the product table back
-        const productQtyUpdateAdd = await Promise.all(cartDetails.map(each => ProductServices.updateProductQty(each, 'add')))
+        await Promise.all(cartDetails.map(each => ProductServices.updateProductQty(each, 'add')))
 
-        const moveCartStatusToAbandoned = await Promise.all(cartDetails.map(each => CartServices.updateCartStatus(each, 'abandoned')))
+        await Promise.all(cartDetails.map(each => CartServices.updateCartStatus(each, 'abandoned')))
 
         for (let each of products) {
 
@@ -242,8 +238,8 @@ exports.updateCart = async (req, res) => {
         }
         const createCartRes = await CartServices.createCart(productArr)
         if (createCartRes) {
-            const createCartProduct = await Promise.all(createCartRes.map(each => CartProductServices.createCartProduct(each)))
-            const updateProductQty = await Promise.all(createCartRes.map(each => ProductServices.updateProductQty(each, 'subtract')))
+            await Promise.all(createCartRes.map(each => CartProductServices.createCartProduct(each)))
+            await Promise.all(createCartRes.map(each => ProductServices.updateProductQty(each, 'subtract')))
 
         }
         return httpResponder.successResponse(res,
@@ -253,7 +249,6 @@ exports.updateCart = async (req, res) => {
 
     } catch (error) {
         logger.error('Error updating cart', error);
-        console.error('Error updating cart', error);
         return httpResponder.errorResponse(res,
             'Internal server Error',
             StatusCodes.INTERNAL_SERVER_ERROR);
@@ -270,14 +265,13 @@ exports.deleteCart = async (req, res) => {
                 StatusCodes.BAD_REQUEST);
         };
         // changes the cart status to abandoned (soft delete)
-        const updatedCart = await Promise.all(cartDetails.map(each => CartServices.updateCartStatus(each, 'abandoned')));
+        await Promise.all(cartDetails.map(each => CartServices.updateCartStatus(each, 'abandoned')));
         return httpResponder.successResponse(res,
             [],
             'Cart deleted successfully',
             StatusCodes.OK);
     } catch (error) {
         logger.error('Error deleting cart', error);
-        console.error('Error deleting cart', error);
         return httpResponder.errorResponse(res, "Internal Server Error", StatusCodes.INTERNAL_SERVER_ERROR);
     }
 };

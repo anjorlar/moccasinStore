@@ -1,6 +1,8 @@
 const config = require("../config/config");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const connectRedis = require("../config/redis");
+
 
 const validateRequest = async (data, validationSchema) => {
 	const errors = validationSchema.validate(data);
@@ -77,6 +79,14 @@ const meta = (count, limit, page) => {
 	};
 };
 
+const addDataToCache = (str, data, duration = 3600) => {
+	connectRedis.setex(str, duration, JSON.stringify(data));
+};
+
+const removeDataFromCache = (str) => {
+	connectRedis.del(str);
+};
+
 module.exports = {
 	validateRequest,
 	hashPassword,
@@ -85,4 +95,6 @@ module.exports = {
 	verifyToken,
 	checkIfProductIdExistAndIncrement,
 	meta,
+	addDataToCache,
+	removeDataFromCache,
 };

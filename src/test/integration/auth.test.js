@@ -17,7 +17,6 @@ describe("User", () => {
                 .send(user)
                 .expect(201)
                 .expect((res) => {
-                    console.log('res >>>>', res.body.data.user)
                     expect(res.body.data.user).haveOwnProperty("name", 'Giwa Tajudeen');
                     expect(res.body.data.user).haveOwnProperty("email");
                     expect(res.body.data.user).haveOwnProperty("address");

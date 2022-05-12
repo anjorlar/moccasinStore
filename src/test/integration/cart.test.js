@@ -5,10 +5,12 @@ const { loginUser } = require("../helpers/helper");
 
 describe("Cart", () => {
     let loggedInUser
+    let loggedInUser2
+    let loggedInUser3
     beforeEach(async function () {
-        loggedInUser = await loginUser('gracejohn@gmail.com', 'graceeee1');
-        console.error('>>>>> loggedInUser', loggedInUser.body.data.token);
-
+        loggedInUser = await loginUser('Yin@gmail.com', 'pauloluyege');
+        loggedInUser2 = await loginUser("mosh@gmail.com", "waiver")
+        loggedInUser3 = await loginUser("bebes@gmail.com", "masukubebee")
     });
     describe("create a cart", () => {
         it('should return a 401 if no token', (done) => {
@@ -41,7 +43,7 @@ describe("Cart", () => {
         it('should create a cart', (done) => {
             request(app)
                 .post("/api/v1/cart/create-cart")
-                .set("authorization", `Bearer ${loggedInUser.body.data.token}`)
+                .set("authorization", `Bearer ${loggedInUser3.body.data.token}`)
                 .send({
                     products: [
                         {
@@ -124,7 +126,7 @@ describe("Cart", () => {
         it("should return a 400 if the required params isn't passed", (done) => {
             request(app)
                 .post("/api/v1/cart/checkout")
-                .set("authorization", `Bearer ${loggedInUser.body.data.token}`)
+                .set("authorization", `Bearer ${loggedInUser2.body.data.token}`)
                 .send({})
                 .expect(400)
                 .end(done)
@@ -133,7 +135,7 @@ describe("Cart", () => {
         it("should checkout an order", (done) => {
             request(app)
                 .post("/api/v1/cart/checkout")
-                .set("authorization", `Bearer ${loggedInUser.body.data.token}`)
+                .set("authorization", `Bearer ${loggedInUser2.body.data.token}`)
                 .send({
                     address: "omole esate"
                 })
