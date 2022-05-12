@@ -45,6 +45,13 @@ module.exports = {
                     address: 'qrty road off parka estate yuof',
                     createdAt: new Date(),
                     updatedAt: new Date(),
+                }, {
+                    name: "Masuku Bebes",
+                    email: "bebes@gmail.com",
+                    password: await hashPassword("masukubebee"),
+                    address: 'qrty road off parka estate yuof',
+                    createdAt: new Date(),
+                    updatedAt: new Date(),
                 },
             ],
             {}

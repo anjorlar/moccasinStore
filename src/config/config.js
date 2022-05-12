@@ -31,6 +31,14 @@ module.exports = {
     dialect: process.env.DB_DIALECT,
   },
 
+  redis: {
+    url: process.env.REDIS_URL,
+  },
+
+  windowSizeInHours: Number(process.env.WINDOW_SIZE_IN_HOURS),
+  maxWindowRequestCount: Number(process.env.MAX_WINDOW_REQUEST_COUNT),
+  windowLoginInterval: Number(process.env.WINDOW_LOG_INTERVAL_IN_HOURS),
+  
   salt: process.env.SALT_ROUND,
   jwt: {
     SECRETKEY: process.env.JWT_SECRET_KEY,

@@ -39,10 +39,6 @@ const ProductServices = {
             productStatus: true,
             include: [{
                 model: models.categories,
-                // required: false,
-                // where: {
-                //     Time: { [op.eq]:null }
-                // },
             }]
         });
     },
@@ -60,9 +56,6 @@ const ProductServices = {
                 {
                     model: models.categories,
                     required: true,
-                    // include: {
-                    // 	model: models.cart,
-                    // },
                 },
             ],
             offset: filter.offSet,

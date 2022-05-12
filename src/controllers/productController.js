@@ -3,6 +3,7 @@ const httpResponder = require("../utils/httpResponse");
 const { StatusCodes } = require("http-status-codes");
 const { meta } = require("../utils/utils");
 const ProductServices = require('../services/productServices');
+const { addDataToCache } = require("../utils/utils");
 
 
 /**
@@ -92,6 +93,9 @@ exports.search = async (req, res) => {
                 result.push(element);
             }
         }
+
+        let search = q
+        addDataToCache(search, result);
         return httpResponder.successResponse(
             res,
             { result },

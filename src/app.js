@@ -2,25 +2,18 @@ const express = require("express");
 const cors = require("cors");
 const morgan = require('morgan')
 const helmet = require("helmet");
+const CronJob = require('cron').CronJob
 const logger = require("./config/logger");
 const httpResponder = require("./utils/httpResponse");
 const { StatusCodes } = require("http-status-codes");
 const db = require("./models");
 const routes = require("./routes");
+const { resetCartStatus } = require("./schedulers/resetCartStatus");
 
-// const run = async () => {
-// };
-console.log('>>>>>>>>>>>>>>> process.env.NODE_ENV', process.env.NODE_ENV)
-console.log('>>>>>>>>>>>>>>> process.env.NODE_ENV', process.env.NODE_ENV)
+// if you want to drop and re-sync db the database
+// db.sequelize.sync({ force: true });
 
-if (process.env.NODE_ENV === 'test') {
-    // db.sequelize.sync({ force: true });
-}
-// db.sequelize.sync().then(() => {
-//   console.log("Drop and re-sync db.");
-//   run();
-// });
-
+// to just re-sync the database
 db.sequelize.sync()
 
 // Init express
@@ -34,14 +27,18 @@ app.use(helmet());
 app.use(cors());
 
 // Development logging
-// if (process.env.NODE_ENV === 'development') {
-// console.log('>>>>>>>>>>>>>>> process.env.NODE_ENV', process.env)
 app.use(morgan('dev'));
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use(routes);
+
+// scheduler to change cart status for old carts runs every one hour
+new CronJob('* */1 * * *', function () {
+    resetCartStatus();
+}, null, true)
+
 
 // handle errors
 app.all("/*", (req, res) => {

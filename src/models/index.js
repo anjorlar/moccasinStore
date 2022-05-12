@@ -4,20 +4,10 @@ const Sequelize = require("sequelize");
 const basename = path.basename(__filename);
 const configFile = require("../config/config");
 
-// const env = process.env.NODE_ENV || "development";
-// const db = {};
-
-// const sequelize = new Sequelize(config[env]["url"], config[env]);
-console.log('this is the environment: process.env.NODE_ENV', process.env.NODE_ENV);
-
 
 const env = process.env.NODE_ENV ? process.env.NODE_ENV : 'development';
 
 const config = configFile[env];
-
-console.log('this is the environment: ', env);
-console.log('this is the environment: ', config.database);
-
 const db = {};
 
 let sequelize;
@@ -30,10 +20,6 @@ if (config.environment === 'production') {
 		host: process.env.DB_HOST,
 		port: process.env.DB_PORT,
 		dialect: 'mysql',
-		// dialectOption: {
-		//     ssl: true,
-		//     native: true,
-		// },
 		logging: true,
 	}
 	);

@@ -8,7 +8,6 @@ describe("Product", () => {
     let loggedInUser
     beforeEach(async function () {
         loggedInUser = await loginUser('gracejohn@gmail.com', 'graceeee1');
-        console.error('>>>>> loggedInUser', loggedInUser.body.data.token);
 
     });
     describe("gets all Product", () => {
