@@ -4,7 +4,13 @@ const { StatusCodes } = require("http-status-codes");
 const { meta } = require("../utils/utils");
 const OrderService = require('../services/orderService');
 
-
+/**
+* @description A logged in user views a their orders
+ * Route: GET: '/api/v1/order/view-active-order'
+* @param {Object} req  req - Http Request object
+* @param {Object} res  res - Http Response object
+ * @returns  {json} json
+*/
 exports.viewOrders = async (req, res) => {
     try {
         const { limit, page } = req.query

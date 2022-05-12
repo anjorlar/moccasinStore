@@ -9,7 +9,13 @@ const OrderProductServices = require('../services/orderProductServices')
 const { meta } = require("../utils/utils");
 const { v4: uuidv4 } = require('uuid');
 
-
+/**
+* @description A logged in user views their cart
+ * Route: GET: '/api/v1/cart/individual-users-cart'
+* @param {Object} req  req - Http Request object
+* @param {Object} res  res - Http Response object
+ * @returns  {json} json
+*/
 exports.getAUsersCart = async (req, res) => {
     try { // do pagination then do get all by cart status note youre getting by userId ( youre getting not checked out)
         const { limit, page } = req.query
@@ -41,6 +47,13 @@ exports.getAUsersCart = async (req, res) => {
     }
 }
 
+/**
+* @description A logged in user views a their orders
+ * Route: POST: '/api/v1/cart/create-cart'
+* @param {Object} req  req - Http Request object
+* @param {Object} res  res - Http Response object
+ * @returns  {json} json
+*/
 exports.createCart = async (req, res) => {
     try {
         const { products } = req.body
@@ -108,6 +121,14 @@ exports.createCart = async (req, res) => {
     }
 }
 
+
+/**
+* @description A logged in user views a their orders
+ * Route: POST: '/api/v1/cart/checkout'
+* @param {Object} req  req - Http Request object
+* @param {Object} res  res - Http Response object
+ * @returns  {json} json
+*/
 exports.cartCheckout = async (req, res) => {
     try {
         const { id } = req.user
@@ -166,6 +187,14 @@ exports.cartCheckout = async (req, res) => {
     }
 };
 
+
+/**
+* @description A logged in user views a their orders
+ * Route: PATCH: '/api/v1/cart/update-cart'
+* @param {Object} req  req - Http Request object
+* @param {Object} res  res - Http Response object
+ * @returns  {json} json
+*/
 exports.updateCart = async (req, res) => {
     try {
         const { products } = req.body
@@ -255,6 +284,14 @@ exports.updateCart = async (req, res) => {
     }
 };
 
+
+/**
+* @description A logged in user views a their orders
+ * Route: DELETE: '/api/v1/cart/clear-cart'
+* @param {Object} req  req - Http Request object
+* @param {Object} res  res - Http Response object
+ * @returns  {json} json
+*/
 exports.deleteCart = async (req, res) => {
     try {
         const { id } = req.user

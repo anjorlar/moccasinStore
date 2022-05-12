@@ -10,7 +10,7 @@ const UserService = require("../services/UserServices");
  * @description A user signs up when the required data is passed in the body
  * @param {Object} req  req - Http Request object
  * @param {Object} res  res - Http Response object
- * @returns {Object} returns object of the required response
+ * @returns {Object} returns json
  */
 exports.register = async (req, res) => {
     try {
@@ -57,7 +57,7 @@ exports.register = async (req, res) => {
 * @description A user logs in when the required data is passed in the body
 * @param {Object} req  req - Http Request object
 * @param {Object} res  res - Http Response object
-* @returns {Object} returns object of the required response
+* @returns {Object} returns json
 */
 exports.login = async (req, res) => {
     try {

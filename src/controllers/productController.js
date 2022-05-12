@@ -7,7 +7,8 @@ const { addDataToCache } = require("../utils/utils");
 
 
 /**
-* @description A views all active product
+* @description A logged in user views all active product
+ * Route: GET: '/api/v1/product/view-active-product'
 * @param {Object} req  req - Http Request object
 * @param {Object} res  res - Http Response object
  * @returns  {json} json
@@ -49,7 +50,13 @@ exports.viewAllActiveProducts = async (req, res) => {
 }
 
 
-
+/**
+* @description A logged in user views a single product
+  * Route: GET: '/api/v1/product/view-active-product/:id'
+* @param {Object} req  req - Http Request object
+* @param {Object} res  res - Http Response object
+ * @returns  {json} json
+*/
 exports.viewOneProduct = async (req, res) => {
     try {
         const { id } = req.params
