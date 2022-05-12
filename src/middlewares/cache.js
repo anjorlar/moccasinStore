@@ -13,10 +13,8 @@ const connectRedis = require("../config/redis");
  * @returns {void|Object} object
  */
 exports.cachedSearch = async (req, res, next) => {
-    console.log('>>>>> got here')
     try {
         const search = req.query.search;
-        console.log('>>>>> got here', search)
         connectRedis.get(`${search}`, (err, data) => {
             if (err) throw err;
             if (data) {
@@ -31,7 +29,7 @@ exports.cachedSearch = async (req, res, next) => {
             next();
         });
     } catch (err) {
-        console.error('err >>>>', err)
+        console.error('err cached search', err)
         return httpResponder.errorResponse(
             res,
             'Internal server error',

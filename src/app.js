@@ -13,7 +13,7 @@ const { resetCartStatus } = require("./schedulers/resetCartStatus");
 // if you want to drop and re-sync db the database
 // db.sequelize.sync({ force: true });
 
-// to just re-sync the database
+// to re-sync the database
 db.sequelize.sync()
 
 // Init express
