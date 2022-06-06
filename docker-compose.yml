@@ -24,15 +24,13 @@ services:
     image: mysql:latest
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      MYSQL_DATABASE: moccasin_store_db
+      MYSQL_DATABASE: ${DB_NAME}
+      max_connections: 1000
     env_file:
       - ./.env
-    # volumes:
-    #   - db:/data/db
     volumes:
       - mysql_data:/var/lib/mysql
 
 volumes:
-  # db:
   mysql_data:
   app:
