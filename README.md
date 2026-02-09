@@ -1,5 +1,5 @@
 ## moccasinStore
-An trainers e-commerce store where users can place order for trainers.
+An e-commerce store where users can place orders for shoes.
 
 ### Tools
 - Node.js
